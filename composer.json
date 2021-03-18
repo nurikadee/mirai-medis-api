@@ -1,0 +1,20 @@
+{
+    "name": "yii2-rest-api",
+    "description": "REST API with Yii2",
+    "license": "Apache-2.0",
+    "require": {
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "authors": [
+        {
+            "name": "Nurika Dewi",
+            "email": "nurikadee@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}
