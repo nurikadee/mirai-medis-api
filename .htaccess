@@ -10,7 +10,7 @@ RedirectMatch 404 /.bowerrc
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 # Otherwise forward the request to index.php
-RewriteRule . index.php
+RewriteRule . index.php [L]
 
 # If your PHP running as Fast-CGI
 SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0

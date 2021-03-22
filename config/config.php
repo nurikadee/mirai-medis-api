@@ -23,7 +23,7 @@ return [
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'showScriptName' => true,
             'rules' => [
                 '<alias:\w+>' => 'site/<alias>',
             ],
