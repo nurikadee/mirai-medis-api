@@ -6,9 +6,9 @@ use Yii;
 use app\helpers\BehaviorsFromParamsHelper;
 use yii\rest\ActiveController;
 
-class BuatJanjiController extends ActiveController
+class DaftarPoliController extends ActiveController
 {
-    public $modelClass = 'app\models\BuatJanji';
+    public $modelClass = 'app\models\DaftarPoli';
 
     public function behaviors()
     {
