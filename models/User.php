@@ -56,7 +56,10 @@ class User extends UserIdentity
 
     public static function findByNoRekamMedisOrNoId($username)
     {
-        return User::find()->where(['no_identitas' => $username])->orWhere(['no_rekam_medis' => $username])->one();
+        return User::find()
+            ->where(['no_identitas' => $username])
+            ->orWhere(['no_rekam_medis' => $username])
+            ->one();
     }
 
     public static function findByNoRekamMedis($no_rekam_medis)
