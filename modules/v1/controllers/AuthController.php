@@ -94,4 +94,38 @@ class AuthController extends Controller
             return AuthController::actionLogin($params);
         }
     }
+
+    public static function actionSignup()
+    {
+        $params = Yii::$app->request->post();
+        $model = new User();
+        $model->no_rekam_medis = $params['no_rekam_medis'];
+        $model->no_identitas = $params['no_identitas'];
+        $model->tanggal_lahir = $params['tanggal_lahir'];
+
+        $userByNoRekamMedis = User::findByNoRekamMedis($params['no_rekam_medis']);
+        $userByno_identitas = User::findByNoId($params['no_identitas']);
+
+        if ($userByNoRekamMedis == null || $userByno_identitas == null) {
+            $model->setPassword($params['password']);
+            $model->generateAuthKey();
+            $model->status = User::STATUS_ACTIVE;
+
+            if ($model->save()) {
+                $data = [
+                    'user' => User::findByNoRekamMedis($model->no_rekam_medis),
+                    'pasien' => Pasien::findByNoRekamMedis($model->no_rekam_medis)
+                ];
+                return ResponseHelper::success(
+                    Status::STATUS_CREATED,
+                    'Successfully',
+                    $data
+                );
+            } else {
+                return ResponseHelper::error(Status::STATUS_UNAUTHORIZED, "Nomor MR / No Identitas dan tanggal lahir tidak cocok!");
+            }
+        } else {
+            return AuthController::actionLogin($params);
+        }
+    }
 }
