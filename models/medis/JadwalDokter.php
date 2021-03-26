@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\medis;
 
 /**
  * This is the model class for table "medis.jadwal_dokter_klinik".

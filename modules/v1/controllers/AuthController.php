@@ -4,7 +4,7 @@ namespace app\modules\v1\controllers;
 
 use Yii;
 use app\helpers\ResponseHelper;
-use app\models\Pasien;
+use app\models\pendaftaran\Pasien;
 use app\models\User;
 use app\models\Status;
 use yii\rest\Controller;

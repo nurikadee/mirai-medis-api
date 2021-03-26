@@ -6,9 +6,9 @@ use Yii;
 use app\helpers\BehaviorsFromParamsHelper;
 use yii\rest\ActiveController;
 
-class DaftarPoliController extends ActiveController
+class PendaftaranPoliController extends ActiveController
 {
-    public $modelClass = 'app\models\DaftarPoli';
+    public $modelClass = 'app\models\Pendaftaran';
 
     public function behaviors()
     {
@@ -19,6 +19,5 @@ class DaftarPoliController extends ActiveController
 
     public function actionAdd()
     {
-        return Yii::$app->user->identity;
     }
 }
