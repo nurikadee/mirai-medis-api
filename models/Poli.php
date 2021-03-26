@@ -17,7 +17,7 @@ class Poli extends \yii\db\ActiveRecord
             ])
             ->leftJoin(UnitPenempatan::tableName() . " as penempatan", "layanan.unit_id::varchar = penempatan.kode::varchar")
             ->where(["layanan.type" => "2"])
-            ->where(["penempatan.aktif" => "1"])
+            ->andWhere(["penempatan.aktif" => "1"])
             ->asArray()->all();
     }
 }
