@@ -33,6 +33,7 @@ class PesertaController extends ActiveController
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionGetPesertaByNik()
     {
         $req = Yii::$app->request;

@@ -2,8 +2,10 @@
 
 namespace app\modules\v1\controllers;
 
-use Yii;
+use app\helpers\DateHelper;
 use app\helpers\BehaviorsFromParamsHelper;
+use app\helpers\ResponseHelper;
+use app\models\Status;
 use yii\rest\ActiveController;
 
 class PendaftaranPoliController extends ActiveController
@@ -17,7 +19,10 @@ class PendaftaranPoliController extends ActiveController
         return $behaviors;
     }
 
-    public function actionAdd()
+    public function actionGetDays()
     {
+        $twoWeekDays = DateHelper::getTwoWeekDays();
+
+        return ResponseHelper::success(Status::STATUS_OK, "Successfully", $twoWeekDays);
     }
 }

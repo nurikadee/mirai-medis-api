@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\medis\JadwalDokter;
+
 class Dokter extends \yii\db\ActiveRecord
 {
 
@@ -38,8 +40,10 @@ class Dokter extends \yii\db\ActiveRecord
         "keterangan",
         "status_datang"
       ])
-      ->where(['!=', "is_deleted", "1"])
+      ->where(['>', "tanggal", date('Y-m-d')])
+      ->andWhere(['!=', "is_deleted", "1"])
       ->andWhere(['pegawai_id' => $id_dokter])
+      ->orderBy("tanggal asc")
       ->asArray()
       ->all();
   }

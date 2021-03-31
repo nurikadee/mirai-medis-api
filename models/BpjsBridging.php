@@ -28,6 +28,7 @@ class BpjsBridging
         $this->option = [
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT:!DH',
         ];
     }
     function setHeader($header = [])
