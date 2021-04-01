@@ -10,7 +10,7 @@ use yii\rest\ActiveController;
 
 class PendaftaranPoliController extends ActiveController
 {
-    public $modelClass = 'app\models\Pendaftaran';
+    public $modelClass = 'app\models\mirai\Pendaftaran';
 
     public function behaviors()
     {
