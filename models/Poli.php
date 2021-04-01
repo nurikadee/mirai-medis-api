@@ -2,8 +2,10 @@
 
 namespace app\models;
 
-use app\models\KelompokUnitLayanan;
-use app\models\UnitPenempatan;
+use app\models\mirai\PoliBpjs;
+use app\models\mirai\PoliMapping;
+use app\models\pegawai\UnitPenempatan;
+use app\models\pendaftaran\KelompokUnitLayanan;
 
 class Poli extends \yii\db\ActiveRecord
 {

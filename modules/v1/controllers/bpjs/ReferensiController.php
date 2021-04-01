@@ -6,7 +6,6 @@ use Yii;
 use app\helpers\BehaviorsFromParamsHelper;
 use app\models\Status;
 use app\helpers\ResponseHelper;
-use app\models\Pasien;
 use app\models\BpjsBridging;
 use yii\rest\ActiveController;
 
@@ -34,6 +33,7 @@ class ReferensiController extends ActiveController
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionGetPoli()
     {
         $req = Yii::$app->request;
@@ -47,6 +47,7 @@ class ReferensiController extends ActiveController
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionGetFaskes()
     {
         $req = Yii::$app->request;
@@ -61,6 +62,7 @@ class ReferensiController extends ActiveController
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionGetDpjp()
     {
         $req = Yii::$app->request;
@@ -75,6 +77,7 @@ class ReferensiController extends ActiveController
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionGetProvinsi()
     {
         $req = Yii::$app->request;
@@ -87,6 +90,7 @@ class ReferensiController extends ActiveController
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionGetKabupaten()
     {
         $req = Yii::$app->request;
@@ -100,6 +104,7 @@ class ReferensiController extends ActiveController
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionGetKecamatan()
     {
         $req = Yii::$app->request;

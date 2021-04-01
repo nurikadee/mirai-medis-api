@@ -6,7 +6,6 @@ use Yii;
 use app\helpers\BehaviorsFromParamsHelper;
 use app\models\Status;
 use app\helpers\ResponseHelper;
-use app\models\Pasien;
 use app\models\BpjsBridging;
 use yii\rest\ActiveController;
 
@@ -19,6 +18,7 @@ class RujukanController extends ActiveController
         $behaviors = BehaviorsFromParamsHelper::behaviors($behaviors);
         return $behaviors;
     }
+
     function actionGetRujukanByNomor()
     {
         $req = Yii::$app->request;
@@ -26,93 +26,97 @@ class RujukanController extends ActiveController
             $nomor = $req->post('nomor');
             $type = $req->post('type'); //tingkat faskes : 1 atau 2
 
-            $url=['Rujukan'];
-            if($type==2){
-                $url[]='RS';
+            $url = ['Rujukan'];
+            if ($type == 2) {
+                $url[] = 'RS';
             }
-            $url[]=$nomor;
+            $url[] = $nomor;
 
             $m = new BpjsBridging();
-            if ($m->setUp($url)->exec()){
+            if ($m->setUp($url)->exec()) {
                 $result = $m->getResponse();
                 return ResponseHelper::success(Status::STATUS_OK, "Successfully", $result);
             }
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionGetRujukanByKartu()
     {
         $req = Yii::$app->request;
         if ($req->isPost) {
             $nomor = $req->post('nomor');
             $type = $req->post('type'); //tingkat faskes : 1 atau 2
-            $multi=$req->post('multi'); //1 : multi record, 0 : 1 record
+            $multi = $req->post('multi'); //1 : multi record, 0 : 1 record
 
-            $url=['Rujukan'];
-            if($type==2){
-                $url[]='RS';
+            $url = ['Rujukan'];
+            if ($type == 2) {
+                $url[] = 'RS';
             }
 
-            if($multi==1){
-                $url[]='List';
+            if ($multi == 1) {
+                $url[] = 'List';
             }
 
-            $url[]='Peserta';
-            $url[]=$nomor;
-            
+            $url[] = 'Peserta';
+            $url[] = $nomor;
+
             $m = new BpjsBridging();
-            if ($m->setUp($url)->exec()){
+            if ($m->setUp($url)->exec()) {
                 $result = $m->getResponse();
                 return ResponseHelper::success(Status::STATUS_OK, "Successfully", $result);
             }
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionInsert()
     {
         $req = Yii::$app->request;
-        if($req->isPost){
+        if ($req->isPost) {
             $data = $req->post('data');
             $m = new BpjsBridging();
-            if ($m->setUp(['Rujukan','insert'], [
+            if ($m->setUp(['Rujukan', 'insert'], [
                 'request' => [
                     't_rujukan' => $data
                 ]
-            ],'POST')->exec()) {
+            ], 'POST')->exec()) {
                 $result = $m->getResponse();
                 return ResponseHelper::success(Status::STATUS_OK, "Successfully", $result);
             }
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionUpdate()
     {
         $req = Yii::$app->request;
-        if($req->isPost){
+        if ($req->isPost) {
             $data = $req->post('data');
             $m = new BpjsBridging();
-            if ($m->setUp(['Rujukan','update'], [
+            if ($m->setUp(['Rujukan', 'update'], [
                 'request' => [
                     't_rujukan' => $data
                 ]
-            ],'PUT')->exec()) {
+            ], 'PUT')->exec()) {
                 $result = $m->getResponse();
                 return ResponseHelper::success(Status::STATUS_OK, "Successfully", $result);
             }
             return ResponseHelper::error(Status::STATUS_BAD_REQUEST, $m->error_msg);
         }
     }
+
     function actionDelete()
     {
         $req = Yii::$app->request;
-        if($req->isPost){
+        if ($req->isPost) {
             $data = $req->post('data');
             $m = new BpjsBridging();
-            if ($m->setUp(['Rujukan','delete'], [
+            if ($m->setUp(['Rujukan', 'delete'], [
                 'request' => [
                     't_rujukan' => $data
                 ]
-            ],'DELETE')->exec()) {
+            ], 'DELETE')->exec()) {
                 $result = $m->getResponse();
                 return ResponseHelper::success(Status::STATUS_OK, "Successfully", $result);
             }

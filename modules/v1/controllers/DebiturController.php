@@ -4,8 +4,7 @@ namespace app\modules\v1\controllers;
 
 use Yii;
 use app\helpers\ResponseHelper;
-use app\models\Debitur;
-use app\models\Poli;
+use app\models\pendaftaran\Debitur;
 use app\models\Status;
 use yii\rest\Controller;
 

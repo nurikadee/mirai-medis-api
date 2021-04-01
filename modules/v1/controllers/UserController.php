@@ -6,7 +6,7 @@ use Yii;
 use app\helpers\BehaviorsFromParamsHelper;
 use app\models\Status;
 use app\helpers\ResponseHelper;
-use app\models\Pasien;
+use app\models\pendaftaran\Pasien;
 use yii\rest\ActiveController;
 
 class UserController extends ActiveController

@@ -4,7 +4,8 @@ namespace app\modules\v1\controllers;
 
 use Yii;
 use app\helpers\ResponseHelper;
-use app\models\Pasien;
+use app\models\mirai\TokenUser;
+use app\models\pendaftaran\Pasien;
 use app\models\User;
 use app\models\Status;
 use yii\rest\Controller;
@@ -19,12 +20,56 @@ class AuthController extends Controller
         ];
     }
 
+    public static function actionSaveToken()
+    {
+        $params = Yii::$app->request->post();
+        $no_rekam_medis = $params['no_rekam_medis'];
+        $device_id = $params['device_id'];
+        $token = $params['token'];
+
+        if (empty($token) || empty($device_id)) {
+            return ResponseHelper::error(
+                Status::STATUS_BAD_REQUEST,
+                "Inputan tidak lengkap"
+            );
+        }
+
+        $device = TokenUser::find()->where(['device_id' => $device_id])->one();
+
+        if (is_null($device)) {
+            $model = new TokenUser();
+            $model->no_rekam_medis = $no_rekam_medis;
+            $model->device_id = $device_id;
+            $model->token = $token;
+
+            if ($model->save(false)) {
+                return ResponseHelper::success(Status::STATUS_OK, "Successfully", null);
+            } else {
+                return ResponseHelper::error(Status::STATUS_BAD_REQUEST, "Error Token");
+            }
+        } else {
+            $device->no_rekam_medis = $no_rekam_medis;
+            $device->device_id = $device_id;
+            $device->token = $token;
+
+
+            if ($device->save(false)) {
+                return ResponseHelper::success(Status::STATUS_OK, "Successfully", null);
+            } else {
+                return ResponseHelper::error(Status::STATUS_BAD_REQUEST, "Error Token");
+            }
+        }
+
+        return ResponseHelper::error(Status::STATUS_BAD_REQUEST, "Error Token");
+    }
+
     public static function actionLogin()
     {
         $params = Yii::$app->request->post();
         $username = $params['username'];
+        $tanggal_lahir = $params['tanggal_lahir'];
 
-        if (empty($username) || empty($params['tanggal_lahir'])) {
+        if (empty($username) || empty($tanggal_lahir)) {
             return ResponseHelper::error(
                 Status::STATUS_BAD_REQUEST,
                 "Nomor MR / No Identitas dan tanggal lahir tidak boleh kosong."
@@ -36,24 +81,31 @@ class AuthController extends Controller
         if ($pasien != null) {
             $user = User::findByNoRekamMedisOrNoId($username);
             if ($user != null) {
-                if (isset($params['consumer'])) $user->consumer = $params['consumer'];
-                if (isset($params['access_given'])) $user->access_given = $params['access_given'];
+                if ($user->validateTanggalLahir($user['tanggal_lahir'], $tanggal_lahir)) {
 
-                Yii::$app->response->statusCode = Status::STATUS_FOUND;
-                $user->generateAuthKey();
-                $user->save();
+                    if (isset($params['consumer'])) $user->consumer = $params['consumer'];
+                    if (isset($params['access_given'])) $user->access_given = $params['access_given'];
 
-                return ResponseHelper::success(
-                    Status::STATUS_FOUND,
-                    "Login Succeed",
-                    [
-                        'user' => User::findByNoRekamMedis($user->no_rekam_medis),
-                        'pasien' => Pasien::findByNoRekamMedis($user->no_rekam_medis)
-                    ]
-                );
+
+                    Yii::$app->response->statusCode = Status::STATUS_OK;
+                    $user->generateAuthKey();
+                    $user->save();
+
+                    return ResponseHelper::success(
+                        Status::STATUS_OK,
+                        "Login Succeed",
+                        [
+                            'user' => User::findByNoRekamMedis($user->no_rekam_medis),
+                            'pasien' => Pasien::findByNoRekamMedis($user->no_rekam_medis)
+                        ]
+                    );
+                } else {
+                    return ResponseHelper::error(Status::STATUS_UNAUTHORIZED, "Tanggal lahir tidak sesuai");
+                }
             } else {
                 $params['no_rekam_medis'] = $pasien['kode'];
                 $params['no_identitas'] = $pasien['no_identitas'];
+                $params['tanggal_lahir'] = $pasien['tgl_lahir'];
                 return AuthController::signup($params);
             }
         } else {

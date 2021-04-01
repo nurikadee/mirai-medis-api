@@ -59,4 +59,13 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
+
+    public function validateTanggalLahir($tanggal_lahir_db, $tanggal_lahir_entry)
+    {
+        if ($tanggal_lahir_db == $tanggal_lahir_entry) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
