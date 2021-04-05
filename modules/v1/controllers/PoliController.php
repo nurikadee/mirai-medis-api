@@ -18,6 +18,13 @@ class PoliController extends Controller
         return ResponseHelper::success(Status::STATUS_OK, "Successfully", $poli);
     }
 
+    public function actionGetPoliUtama()
+    {
+        $poli = Poli::findAllPoliUtama();
+
+        return ResponseHelper::success(Status::STATUS_OK, "Successfully", $poli);
+    }
+
     public function actionGetPoliMappingBpjs()
     {
         $poli = Poli::findAllPoliMappingBpjs();

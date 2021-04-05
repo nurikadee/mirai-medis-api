@@ -5,26 +5,27 @@ namespace app\models\pendaftaran;
 use Yii;
 
 /**
- * This is the model class for table "pendaftaran.debitur".
+ * This is the model class for table "pendaftaran.debitur_detail".
  *
  * @property string $kode
+ * @property string $debitur_kode
  * @property string $nama
  * @property int|null $created_by
  * @property string|null $created_at
  * @property int|null $updated_by
  * @property string|null $updated_at
+ * @property int $aktif
  * @property string|null $deleted_at
- * @property int|null $aktif
  * @property int|null $deleted_by
  */
-class Debitur extends \yii\db\ActiveRecord
+class DebiturDetail extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'pendaftaran.debitur';
+        return 'pendaftaran.debitur_detail';
     }
 
     /**
@@ -33,11 +34,11 @@ class Debitur extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['kode', 'nama'], 'required'],
+            [['kode', 'debitur_kode', 'nama', 'aktif'], 'required'],
             [['created_by', 'updated_by', 'aktif', 'deleted_by'], 'default', 'value' => null],
             [['created_by', 'updated_by', 'aktif', 'deleted_by'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
-            [['kode'], 'string', 'max' => 10],
+            [['kode', 'debitur_kode'], 'string', 'max' => 10],
             [['nama'], 'string', 'max' => 255],
             [['kode'], 'unique'],
         ];
@@ -50,28 +51,15 @@ class Debitur extends \yii\db\ActiveRecord
     {
         return [
             'kode' => 'Kode',
+            'debitur_kode' => 'Debitur Kode',
             'nama' => 'Nama',
             'created_by' => 'Created By',
             'created_at' => 'Created At',
             'updated_by' => 'Updated By',
             'updated_at' => 'Updated At',
-            'deleted_at' => 'Deleted At',
             'aktif' => 'Aktif',
+            'deleted_at' => 'Deleted At',
             'deleted_by' => 'Deleted By',
         ];
-    }
-
-    public static function findAllDebitur()
-    {
-        return Debitur::find()->alias('deb')
-            ->select([
-                "deb.kode as kode_debitur",
-                "deb.nama as nama_debitur",
-                "debdet.kode as kode_debitur_detail",
-                "debdet.nama as nama_debitur_detail"
-            ])
-            ->leftJoin(DebiturDetail::tableName() . " as debdet", "debdet.debitur_kode::varchar = deb.kode::varchar")
-            ->where(["deb.aktif" => "1"])
-            ->asArray()->all();
     }
 }
