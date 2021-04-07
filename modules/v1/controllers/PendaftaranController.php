@@ -26,9 +26,27 @@ class PendaftaranController extends ActiveController
 
         $debitur = Debitur::findAllDebitur();
 
+        $debiturGroup = [];
+        $detailDebitur = [];
+        foreach ($debitur as $value) {
+            $debiturGroup[$value["kode_debitur"]]["kode_debitur"] = $value["kode_debitur"];
+            $debiturGroup[$value["kode_debitur"]]["nama_debitur"] = $value["nama_debitur"];
+
+            $data = [
+                "kode_debitur_detail" => $value["kode_debitur_detail"],
+                "nama_debitur_detail" => $value["nama_debitur_detail"]
+            ];
+            $debiturGroup[$value["kode_debitur"]]["detail"][] = $data;
+        }
+
+        foreach ($debiturGroup as $debiturKode) {
+            $detailDebitur[] = $debiturKode;
+        }
+
+
         $response = [
             "weekdays" => $twoWeekDays,
-            "debitur" => $debitur
+            "debitur" => $detailDebitur
         ];
 
         return ResponseHelper::success(Status::STATUS_OK, "Successfully", $response);
