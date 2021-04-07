@@ -23,6 +23,20 @@ class Poli extends \yii\db\ActiveRecord
             ->asArray()->all();
     }
 
+    public static function findAllPoliUtama()
+    {
+        return KelompokUnitLayanan::find()->alias("layanan")
+            ->select([
+                "layanan.id",
+                "layanan.unit_id",
+                "penempatan.nama"
+            ])
+            ->leftJoin(UnitPenempatan::tableName() . " as penempatan", "layanan.unit_id::varchar = penempatan.kode::varchar")
+            ->where(["layanan.type" => "5"])
+            ->andWhere(["penempatan.aktif" => "1"])
+            ->asArray()->all();
+    }
+
     public static function findAllPoliMappingBpjs()
     {
         return PoliMapping::find()->alias("poli")
