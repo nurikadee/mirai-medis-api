@@ -2,6 +2,7 @@
 
 namespace app\models\mirai;
 
+use app\models\pendaftaran\DebiturDetail;
 use Yii;
 
 /**
@@ -16,7 +17,6 @@ use Yii;
  * @property int $statuc_cetak_tracer
  * @property int $status_distribusi
  * @property int $status_pembatalan
- * @property int $no_antrian
  * @property string|null $no_kartu_bpjs
  * @property string|null $no_rujukan_bpjs
  * @property int|null $id_control_simrs
@@ -41,11 +41,11 @@ class Pendaftaran extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_rekam_medis', 'poli_rs_id', 'tanggal_kunjungan', 'debitur_id', 'no_antrian'], 'required'],
+            [['no_rekam_medis', 'poli_rs_id', 'tanggal_kunjungan', 'debitur_id'], 'required'],
             [['no_rekam_medis', 'poli_rs_id', 'tanggal_pendaftaran', 'debitur_id', 'no_kartu_bpjs', 'no_rujukan_bpjs', 'note', 'kode_booking_antrian_mobile_jkn', 'created_at', 'updated_at'], 'string'],
             [['tanggal_kunjungan'], 'safe'],
-            [['statuc_cetak_tracer', 'status_distribusi', 'status_pembatalan', 'no_antrian', 'id_control_simrs'], 'default', 'value' => null],
-            [['statuc_cetak_tracer', 'status_distribusi', 'status_pembatalan', 'no_antrian', 'id_control_simrs'], 'integer'],
+            [['statuc_cetak_tracer', 'status_distribusi', 'status_pembatalan', 'id_control_simrs'], 'default', 'value' => null],
+            [['statuc_cetak_tracer', 'status_distribusi', 'status_pembatalan', 'id_control_simrs'], 'integer'],
         ];
     }
 
@@ -64,7 +64,6 @@ class Pendaftaran extends \yii\db\ActiveRecord
             'statuc_cetak_tracer' => 'Statuc Cetak Tracer',
             'status_distribusi' => 'Status Distribusi',
             'status_pembatalan' => 'Status Pembatalan',
-            'no_antrian' => 'No Antrian',
             'no_kartu_bpjs' => 'No Kartu Bpjs',
             'no_rujukan_bpjs' => 'No Rujukan Bpjs',
             'id_control_simrs' => 'Id Control Simrs',
@@ -73,5 +72,28 @@ class Pendaftaran extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public static function getPendaftaran($no_rekam_medis, $poli_rs_id, $tanggal_kunjungan)
+    {
+        return \Yii::$app->db->createCommand("select 
+         daf.id as pendaftaran_id,
+         daf.no_rekam_medis,
+         daf.tanggal_kunjungan,
+         daf.tanggal_pendaftaran,
+         daf.status_pembatalan,
+         daf.note,
+         deb.kode as kode_debitur,
+         deb.nama as nama_debitur,
+         antri.id as id_antrian,
+         antri.nomor_antrian
+         from 
+         mirai.tb_pendaftaran daf 
+         left join mirai.tb_antrian antri on daf.id::varchar=antri.pendaftaran_id::varchar
+         left join pendaftaran.debitur_detail deb on daf.debitur_id::varchar=deb.kode::varchar
+         where 
+         daf.no_rekam_medis = '$no_rekam_medis' 
+         and daf.tanggal_kunjungan = '$tanggal_kunjungan' 
+         and daf.poli_rs_id = '$poli_rs_id'")->queryOne();
     }
 }

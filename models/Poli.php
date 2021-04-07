@@ -13,9 +13,8 @@ class Poli extends \yii\db\ActiveRecord
     {
         return KelompokUnitLayanan::find()->alias("layanan")
             ->select([
-                "layanan.id",
-                "layanan.unit_id",
-                "penempatan.nama"
+                "CAST(layanan.unit_id AS varchar) as poli_rs_id",
+                "penempatan.nama as poli_rs_nama"
             ])
             ->leftJoin(UnitPenempatan::tableName() . " as penempatan", "layanan.unit_id::varchar = penempatan.kode::varchar")
             ->where(["layanan.type" => "2"])
@@ -27,9 +26,8 @@ class Poli extends \yii\db\ActiveRecord
     {
         return KelompokUnitLayanan::find()->alias("layanan")
             ->select([
-                "layanan.id",
-                "layanan.unit_id",
-                "penempatan.nama"
+                "CAST(layanan.unit_id AS varchar) as poli_rs_id",
+                "penempatan.nama as poli_rs_nama"
             ])
             ->leftJoin(UnitPenempatan::tableName() . " as penempatan", "layanan.unit_id::varchar = penempatan.kode::varchar")
             ->where(["layanan.type" => "5"])
