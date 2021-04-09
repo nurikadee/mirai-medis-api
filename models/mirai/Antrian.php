@@ -2,10 +2,10 @@
 
 namespace app\models\mirai;
 
-class PoliMapping extends \yii\db\ActiveRecord
+class Antrian extends \yii\db\ActiveRecord
 {
     public static function tableName()
     {
-        return 'mirai.tb_poli_mapping';
+        return 'mirai.tb_antrian';
     }
 }
