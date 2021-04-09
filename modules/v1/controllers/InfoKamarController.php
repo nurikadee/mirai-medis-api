@@ -21,6 +21,12 @@ class InfoKamarController extends Controller
         return $behaviors;
     }
 
+    function actionKamarRawatInap()
+    {
+        $kamar = KelompokUnitLayanan::findAllaKamar();
+        return ResponseHelper::success(Status::STATUS_OK, "Successfully", $kamar);
+    }
+
     function actionRiwayatRawatinap()
     {
         $req = Yii::$app->request;
@@ -33,6 +39,7 @@ class InfoKamarController extends Controller
         }
         return ResponseHelper::error(Status::STATUS_METHOD_NOT_ALLOWED, 'Method Not Allowed');
     }
+
     function actionListRuang()
     {
         $req = Yii::$app->request;
@@ -45,6 +52,7 @@ class InfoKamarController extends Controller
         }
         return ResponseHelper::error(Status::STATUS_METHOD_NOT_ALLOWED, 'Method Not Allowed');
     }
+
     function actionBedPerRuang()
     {
         $req = Yii::$app->request;

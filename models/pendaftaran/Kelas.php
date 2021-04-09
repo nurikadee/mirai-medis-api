@@ -2,7 +2,6 @@
 
 namespace app\models\pendaftaran;
 
-use Yii;
 class Kelas extends \yii\db\ActiveRecord
 {
     public static function tableName()
