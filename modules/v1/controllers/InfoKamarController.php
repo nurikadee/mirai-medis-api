@@ -3,7 +3,6 @@
 namespace app\modules\v1\controllers;
 
 use Yii;
-use app\helpers\BehaviorsFromParamsHelper;
 use app\helpers\ResponseHelper;
 use app\models\Status;
 use app\models\pendaftaran\Registrasi;
@@ -12,15 +11,6 @@ use yii\rest\Controller;
 
 class InfoKamarController extends Controller
 {
-    public $modelClass = "app\models\Bpjs";
-
-    public function behaviors()
-    {
-        $behaviors = parent::behaviors();
-        $behaviors = BehaviorsFromParamsHelper::behaviors($behaviors);
-        return $behaviors;
-    }
-
     function actionKamarRawatInap()
     {
         $kamar = KelompokUnitLayanan::findAllaKamar();
