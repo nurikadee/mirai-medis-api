@@ -29,6 +29,7 @@ class RiwayatController extends ActiveController
             return $this->writeResponse(false, "Nomor rekam medis tidak boleh kosong", []);
         }
 
+        $data = [];
         $mirai = Pendaftaran::getTransactionMirai($no_rekam_medis);
         $web = Pendaftaran::getTransactionLayanan($no_rekam_medis);
 

@@ -35,7 +35,7 @@ class KelompokUnitLayanan extends \yii\db\ActiveRecord
         $kelas = Kelas::find()
             ->select([
                 "kode as kode_kelas",
-                "nama as nama_kelas"
+                "nama as nama_kelas",
             ])
             ->asArray()->all();
 
@@ -56,12 +56,29 @@ class KelompokUnitLayanan extends \yii\db\ActiveRecord
                 ->asArray()->all();
 
             foreach ($kamar as $valueKam) {
+                $lastUpdated = date("Y-m-d H:m:s");
                 $availableBed = Layanan::find()
-                    ->select(["kamar_id", "registrasi_kode", "tgl_masuk", "tgl_keluar"])
+                    ->select([
+                        "kamar_id",
+                        "registrasi_kode",
+                        "tgl_masuk",
+                        "tgl_keluar",
+                        "created_at",
+                        "updated_at"
+                    ])
                     ->where(["kamar_id" => $valueKam["kamar_id"]])
                     ->andWhere(["tgl_keluar" => null])
-                    //->asArray()->all()
-                    ->count();
+                    ->orderBy("updated_at desc")
+                    ->asArray()->all();
+
+                $createdDate = [];
+                foreach ($availableBed as $last) {
+                    if (empty($last["updated_at"])) {
+                        $createdDate[] = $last["created_at"];
+                    } else {
+                        $createdDate[] = $last["updated_at"];
+                    }
+                }
 
                 $kamarTemp[$valueKam["kode_ruang"]]["kode_ruang"] = $valueKam["kode_ruang"];
                 $kamarTemp[$valueKam["kode_ruang"]]["nama_ruang"] = $valueKam["nama_ruang"];
@@ -69,7 +86,8 @@ class KelompokUnitLayanan extends \yii\db\ActiveRecord
                     "kamar_id" => $valueKam["kamar_id"],
                     "no_kamar" => $valueKam["no_kamar"],
                     "no_kasur" => $valueKam["no_kasur"],
-                    "available" => $availableBed == 0
+                    "available" => empty($availableBed),
+                    "last_updated" => empty($availableBed) ? $lastUpdated : $createdDate[0]
                 ];
             }
 
