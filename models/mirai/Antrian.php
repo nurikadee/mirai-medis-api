@@ -6,6 +6,6 @@ class Antrian extends \yii\db\ActiveRecord
 {
     public static function tableName()
     {
-        return 'mirai.tb_antrian';
+        return 'mirai_medis.tb_antrian';
     }
 }

@@ -6,7 +6,7 @@ class TokenUser extends \yii\db\ActiveRecord
 {
     public static function tableName()
     {
-        return 'mirai.tb_token_user';
+        return 'mirai_medis.tb_token_user';
     }
 
     public static function findTokenByDeviceId($device_id)

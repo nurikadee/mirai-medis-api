@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models\mirai;
+namespace app\models\mirai_medis;
 
 class Pendaftaran extends \yii\db\ActiveRecord
 {
 
     public static function tableName()
     {
-        return 'mirai.tb_pendaftaran';
+        return 'mirai_medis_medis.tb_pendaftaran';
     }
 
     public static function getPendaftaran($no_rekam_medis, $poli_rs_id, $tanggal_kunjungan)
@@ -26,8 +26,8 @@ class Pendaftaran extends \yii\db\ActiveRecord
          tem.kode as poli_rs_id,
          tem.nama as poli_rs_nama
          from 
-         mirai.tb_pendaftaran daf 
-         left join mirai.tb_antrian antri on daf.id::varchar=antri.pendaftaran_id::varchar
+         mirai_medis.tb_pendaftaran daf 
+         left join mirai_medis.tb_antrian antri on daf.id::varchar=antri.pendaftaran_id::varchar
          left join pendaftaran.debitur_detail deb on daf.debitur_id::varchar=deb.kode::varchar
          left join pegawai.dm_unit_penempatan tem on daf.poli_rs_id::varchar = tem.kode::varchar
          where 
@@ -36,7 +36,7 @@ class Pendaftaran extends \yii\db\ActiveRecord
          and daf.poli_rs_id = '$poli_rs_id'")->queryOne();
     }
 
-    public static function getTransactionMirai($no_rekam_medis)
+    public static function getTransactionmirai_medis($no_rekam_medis)
     {
         return \Yii::$app->db->createCommand("select 
          CAST(daf.id as varchar) as pendaftaran_id,
@@ -50,7 +50,7 @@ class Pendaftaran extends \yii\db\ActiveRecord
          tem.nama as poli_rs_nama,
          false as layanan_web
          from 
-         mirai.tb_pendaftaran daf 
+         mirai_medis.tb_pendaftaran daf 
          left join pendaftaran.debitur_detail deb on daf.debitur_id::varchar=deb.kode::varchar
          left join pegawai.dm_unit_penempatan tem on daf.poli_rs_id::varchar = tem.kode::varchar
          where 

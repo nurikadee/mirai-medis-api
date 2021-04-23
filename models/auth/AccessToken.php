@@ -13,7 +13,7 @@ class AccessToken extends ActiveRecord
 
     public static function tableName()
     {
-        return 'mirai.tb_access_token';
+        return 'mirai_medis.tb_access_token';
     }
 
     public static function generateAuthKey($user)
