@@ -13,7 +13,7 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
 
     public static function tableName()
     {
-        return '{{%mirai.tb_user}}';
+        return '{{%mirai_medis.tb_user}}';
     }
 
     public static function findIdentity($id)

@@ -7,7 +7,7 @@ class PoliBpjs extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 'mirai.tb_poli_bpjs';
+        return 'mirai_medis.tb_poli_bpjs';
     }
 
     public static function getMappingRsPolitoBPJS($poliRS)

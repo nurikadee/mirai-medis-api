@@ -6,6 +6,6 @@ class PoliMapping extends \yii\db\ActiveRecord
 {
     public static function tableName()
     {
-        return 'mirai.tb_poli_mapping';
+        return 'mirai_medis.tb_poli_mapping';
     }
 }
