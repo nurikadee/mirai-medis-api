@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models\mirai_medis;
+namespace app\models\mirai;
 
 class Pendaftaran extends \yii\db\ActiveRecord
 {
 
     public static function tableName()
     {
-        return 'mirai_medis_medis.tb_pendaftaran';
+        return 'mirai_medis.tb_pendaftaran';
     }
 
     public static function getPendaftaran($no_rekam_medis, $poli_rs_id, $tanggal_kunjungan)
